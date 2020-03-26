@@ -40,6 +40,18 @@ log = logging.getLogger(__name__)
 ec2 = boto3.client("ec2")
 
 
+class Error(Exception):
+    """Base class for other exceptions"""
+
+    pass
+
+
+class NoResultsException(Error):
+    """Raised when no ami results are returned."""
+
+    pass
+
+
 def build_search_body(event):
     owners = json.loads(event["AmiOwners"])
     filters = [{"Name": "name", "Values": [event["AmiNameSearchString"]]}]
@@ -74,15 +86,22 @@ def handler(event, context):
         try:
             response_data["Id"] = get_ami_id(response_value)
             if not response_data["Id"]:
-                response_type = cfnresponse.FAILED
-                reason = "Ami Id search returned no results!"
+                cfnresponse.send(
+                    event,
+                    context,
+                    cfnresponse.FAILED,
+                    response_data,
+                    "Ami Id search returned no results!",
+                    "CustomResourcePhysicalID",
+                )
+                raise NoResultsException
         except Exception as e:
             cfnresponse.send(
                 event,
                 context,
                 cfnresponse.FAILED,
                 response_data,
-                reason,
+                "Lambda encountered an error. See cloudwatch for more details.",
                 "CustomResourcePhysicalID",
             )
             log.error("Error encountered while searching for ami: %s", e)
