@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: 2010-09-09
+Conditions:
+  UseAmiLookup: !Equals
+    - !Ref AmiId
+    - ''
+Description: A simple template to test the lookup ami id lambda function
+Metadata:
+  'AWS::CloudFormation::Interface':
+    ParameterGroups:
+      - Label:
+          default: AMI lookup test
+        Parameters:
+          - AmiNameSearchString
+          - AdditionalAmiFilters
+          - AmiId
+    ParameterLabels:
+      AmiNameSearchString:
+        default: AMI Name Search Pattern
+    Version: 0.0.0
+  cfn-lint:
+    config:
+      ignore_checks:
+        - E4001
+Outputs:
+  AmiId:
+    Description: The target AMI Id
+    Value: !If [UseAmiLookup, !Sub '${AmiIdLookup.Id}', AmiId]
+Parameters:
+  AmiId:
+    Default: ''
+    Description: (Optional) AMI ID -- will supersede Lambda-based AMI lookup using AmiNameSearchString
+    Type: String
+  AmiNameSearchString:
+    Default: Windows_Server-2016-English-Full-Base-*
+    Description: Search pattern to match against an AMI Name
+    Type: String
+  AdditionalAmiFilters:
+    Default: ''
+    Description: Json string containing list of maps of additional ami search filters. refer to the boto3 docs for a complete filter list (https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2.html#EC2.Client.describe_images)
+    Type: String
+  AmiOwners:
+    Default: '["amazon"]'
+    Description: Json string containing a list of owners to filter the ami search against
+    Type: String
+Resources:
+  AmiIdLookup:
+    Condition: UseAmiLookup
+    Properties:
+      AmiNameSearchString: !Ref AmiNameSearchString
+      AdditionalAmiFilters: !Ref AdditionalAmiFilters
+      AmiOwners: !Ref AmiOwners
+      Region: !Ref AWS::Region
+      ServiceToken: !Sub arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:cfn-lookup-ami-ids
+    Type: Custom::AmiIdLookup
