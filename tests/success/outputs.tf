@@ -1,5 +1,5 @@
 output "cfn_ami_id" {
-  value       = module.complex_search.ami_id
+  value       = module.success.ami_id
   description = "The AMI id returned via cloudformation"
 }
 

@@ -53,18 +53,14 @@ class NoResultsException(Error):
 
 
 def build_search_body(event):
-    owners = json.loads(event["AmiOwners"])
-    filters = [{"Name": "name", "Values": [event["AmiNameSearchString"]]}]
-
-    if event.get("AdditionalFilters"):
-        filters = filters + event["AdditionalFilters"]
-    if event.get("Owners"):
-        owners = event["Owners"]
+    owners = json.loads(event["Owners"])
+    filters = json.loads(event["Filters"])
 
     return {"Owners": owners, "Filters": filters}
 
 
 def get_ami_id(event):
+
     response = ec2.describe_images(**build_search_body(event))
     amis = sorted(response["Images"], key=lambda x: x["CreationDate"], reverse=True)
     ami_id = amis[0]["ImageId"]

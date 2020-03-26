@@ -13,10 +13,9 @@ resource "aws_cloudformation_stack" "cfn" {
   timeout_in_minutes = var.TimeoutInMinutes
 
   parameters = {
-    AmiId                = var.AmiId
-    AmiNameSearchString  = var.AmiNameSearchString
-    AdditionalAmiFilters = jsonencode(var.AdditionalAmiFilters)
-    AmiOwners            = jsonencode(var.AmiOwners)
+    AmiId      = var.AmiId
+    AmiFilters = jsonencode(var.AmiFilters)
+    AmiOwners  = jsonencode(var.AmiOwners)
   }
 
   timeouts {

@@ -10,12 +10,9 @@ Metadata:
       - Label:
           default: AMI lookup test
         Parameters:
-          - AmiNameSearchString
-          - AdditionalAmiFilters
+          - AmiFilters
           - AmiId
-    ParameterLabels:
-      AmiNameSearchString:
-        default: AMI Name Search Pattern
+          - AmiOwners
     Version: 0.0.0
   cfn-lint:
     config:
@@ -30,13 +27,9 @@ Parameters:
     Default: ''
     Description: (Optional) AMI ID -- will supersede Lambda-based AMI lookup using AmiNameSearchString
     Type: String
-  AmiNameSearchString:
-    Default: Windows_Server-2016-English-Full-Base-*
-    Description: Search pattern to match against an AMI Name
-    Type: String
-  AdditionalAmiFilters:
-    Default: ''
-    Description: Json string containing list of maps of additional ami search filters. refer to the boto3 docs for a complete filter list (https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2.html#EC2.Client.describe_images)
+  AmiFilters:
+    Default: '[{"Name": "name", "Values": ["Windows_Server-2016-English-Full-Base-*"]}]'
+    Description: Json string containing list of maps of ami search filters. refer to the boto3 docs for a complete filter list (https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2.html#EC2.Client.describe_images)
     Type: String
   AmiOwners:
     Default: '["amazon"]'
@@ -46,9 +39,8 @@ Resources:
   AmiIdLookup:
     Condition: UseAmiLookup
     Properties:
-      AmiNameSearchString: !Ref AmiNameSearchString
-      AdditionalAmiFilters: !Ref AdditionalAmiFilters
-      AmiOwners: !Ref AmiOwners
+      Filters: !Ref AmiFilters
+      Owners: !Ref AmiOwners
       Region: !Ref AWS::Region
       ServiceToken: !Sub arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:cfn-lookup-ami-ids
     Type: Custom::AmiIdLookup

@@ -75,24 +75,18 @@ variable "AmiId" {
   default     = ""
 }
 
-variable "AmiNameSearchString" {
-  type        = string
-  description = "search pattern to match against an AMI Name"
-  default     = "Windows_Server-2016-English-Full-Base-*"
-}
-
-variable "AdditionalAmiFilters" {
+variable "AmiFilters" {
   type = list(object(
     {
-      Name  = string,
-      Value = string
+      Name   = string,
+      Values = list(string)
     }
   ))
   description = "List of maps with additional ami search filters"
   default = [
     {
-      Name  = "",
-      Value = ""
+      Name   = "",
+      Values = [""]
     }
   ]
 }
