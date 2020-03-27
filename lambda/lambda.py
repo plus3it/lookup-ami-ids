@@ -5,6 +5,7 @@ import logging
 import os
 
 import cfnresponse
+import exceptions
 
 DEFAULT_LOG_LEVEL = logging.DEBUG
 LOG_LEVELS = collections.defaultdict(
@@ -38,18 +39,6 @@ logging.basicConfig(
 log = logging.getLogger(__name__)
 
 ec2 = boto3.client("ec2")
-
-
-class Error(Exception):
-    """Base class for other exceptions"""
-
-    pass
-
-
-class NoResultsException(Error):
-    """Raised when no ami results are returned."""
-
-    pass
 
 
 def build_search_body(event):

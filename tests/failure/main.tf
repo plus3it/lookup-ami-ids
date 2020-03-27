@@ -1,6 +1,11 @@
 locals {
-  name_filter = "Windows_Server-2016-English-Full-Base-*"
-  owners      = ["foo"]
+  ami_filters = [
+    {
+      Name   = "name",
+      Values = ["amzn-ami-hvm-*"]
+    }
+  ]
+  owners = ["foo"]
 }
 
 module "failure" {
@@ -12,7 +17,7 @@ module "failure" {
     "CAPABILITY_AUTO_EXPAND"
   ]
 
-  TimeoutInMinutes    = 5
-  AmiNameSearchString = local.name_filter
-  AmiOwners           = local.owners
+  TimeoutInMinutes = 5
+  AmiFilters       = local.ami_filters
+  AmiOwners        = local.owners
 }

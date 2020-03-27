@@ -8,6 +8,8 @@
 import requests
 import json
 
+import exceptions
+
 SUCCESS = "SUCCESS"
 FAILED = "FAILED"
 
@@ -42,3 +44,4 @@ def send(
         print("Status code: " + response.reason)
     except Exception as e:
         print("send(..) failed executing requests.put(..): " + str(e))
+        raise CfnSendResponseException
