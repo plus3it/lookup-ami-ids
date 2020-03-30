@@ -17,7 +17,7 @@ module "failure" {
     "CAPABILITY_AUTO_EXPAND"
   ]
 
-  TimeoutInMinutes = 5
+  TimeoutInMinutes = 1
   AmiFilters       = local.ami_filters
   AmiOwners        = local.owners
 }

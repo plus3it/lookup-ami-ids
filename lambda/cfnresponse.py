@@ -44,4 +44,4 @@ def send(
         print("Status code: " + response.reason)
     except Exception as e:
         print("send(..) failed executing requests.put(..): " + str(e))
-        raise CfnSendResponseException
+        raise

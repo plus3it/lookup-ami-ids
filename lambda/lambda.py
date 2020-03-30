@@ -61,37 +61,21 @@ def get_ami_id(event):
 def handler(event, context):
     log.debug("Received event: %s", event)
 
-    response_type = cfnresponse.SUCCESS
+    response_status = cfnresponse.SUCCESS
     response_value = event["ResourceProperties"]
     response_data = {}
     response_data["Data"] = response_value
-    reason = None
 
     if event["RequestType"] != "Delete":
         try:
             response_data["Id"] = get_ami_id(response_value)
             if not response_data["Id"]:
-                cfnresponse.send(
-                    event,
-                    context,
-                    cfnresponse.FAILED,
-                    response_data,
-                    "Ami Id search returned no results!",
-                    "CustomResourcePhysicalID",
+                raise exceptions.NoResultsException(
+                    "Ami Id search returned no results!"
                 )
-                raise NoResultsException
         except Exception as e:
-            cfnresponse.send(
-                event,
-                context,
-                cfnresponse.FAILED,
-                response_data,
-                "Lambda encountered an error. See cloudwatch for more details.",
-                "CustomResourcePhysicalID",
-            )
+            cfnresponse.send(event, context, cfnresponse.FAILED, {"Error": f"{e}"})
             log.error("Error encountered while searching for ami: %s", e)
             raise
 
-    cfnresponse.send(
-        event, context, response_type, response_data, reason, "CustomResourcePhysicalID"
-    )
+    cfnresponse.send(event, context, response_status, response_data)
