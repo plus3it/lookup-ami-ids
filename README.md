@@ -5,6 +5,10 @@ AWS Lambda based cloudformation custom resource to lookup AMI IDs by AMI Name.
 See the tests directory of this project for examples on how to consume this resource.
 
 <!-- BEGIN TFDOCS -->
+## Requirements
+
+No requirements.
+
 ## Providers
 
 | Name | Version |
@@ -14,7 +18,7 @@ See the tests directory of this project for examples on how to consume this reso
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
+|------|-------------|------|---------|:--------:|
 | log\_level | The log level of the lambda function | `string` | `"INFO"` | no |
 
 ## Outputs
