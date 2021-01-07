@@ -1,4 +1,5 @@
-import boto3
+"""Lookup AMI ID."""
+
 import collections
 import json
 import logging
@@ -6,6 +7,8 @@ import os
 
 import cfnresponse
 import exceptions
+
+import boto3
 
 DEFAULT_LOG_LEVEL = logging.DEBUG
 LOG_LEVELS = collections.defaultdict(
@@ -23,15 +26,15 @@ LOG_LEVELS = collections.defaultdict(
 # different logging config
 root = logging.getLogger()
 if root.handlers:
-    for handler in root.handlers:
-        root.removeHandler(handler)
+    for _handler in root.handlers:
+        root.removeHandler(_handler)
 
-log_file_name = ""
+LOG_FILE_NAME = ""
 if not os.environ.get("AWS_EXECUTION_ENV"):
-    log_file_name = "ami-lookup.log"
+    LOG_FILE_NAME = "ami-lookup.log"
 
 logging.basicConfig(
-    filename=log_file_name,
+    filename=LOG_FILE_NAME,
     format="%(asctime)s.%(msecs)03dZ [%(name)s][%(levelname)-5s]: %(message)s",
     datefmt="%Y-%m-%dT%H:%M:%S",
     level=LOG_LEVELS[os.environ.get("LOG_LEVEL", "").lower()],
@@ -42,6 +45,7 @@ ec2 = boto3.client("ec2")
 
 
 def build_search_body(event):
+    """Extract owners and filters from event."""
     owners = json.loads(event["Owners"])
     filters = json.loads(event["Filters"])
 
@@ -49,7 +53,7 @@ def build_search_body(event):
 
 
 def get_ami_id(event):
-
+    """Gather EC2 AMI ID."""
     response = ec2.describe_images(**build_search_body(event))
     amis = sorted(response["Images"], key=lambda x: x["CreationDate"], reverse=True)
     ami_id = amis[0]["ImageId"]
@@ -59,6 +63,7 @@ def get_ami_id(event):
 
 
 def handler(event, context):
+    """Return AMI ID from event."""
     log.debug("Received event: %s", event)
 
     response_status = cfnresponse.SUCCESS
@@ -73,9 +78,9 @@ def handler(event, context):
                 raise exceptions.NoResultsException(
                     "Ami Id search returned no results!"
                 )
-        except Exception as e:
-            cfnresponse.send(event, context, cfnresponse.FAILED, {"Error": f"{e}"})
-            log.error("Error encountered while searching for ami: %s", e)
+        except Exception as exc:
+            cfnresponse.send(event, context, cfnresponse.FAILED, {"Error": f"{exc}"})
+            log.error("Error encountered while searching for ami: %s", exc)
             raise
 
     cfnresponse.send(event, context, response_status, response_data)

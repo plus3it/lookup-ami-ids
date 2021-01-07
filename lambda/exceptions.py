@@ -1,10 +1,9 @@
-class Error(Exception):
-    """Base class for other exceptions"""
+"""Exception script."""
 
-    pass
+
+class Error(Exception):
+    """Base class for other exceptions."""
 
 
 class NoResultsException(Error):
     """Raised when no ami results are returned."""
-
-    pass
