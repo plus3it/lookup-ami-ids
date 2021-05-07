@@ -13,18 +13,24 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| aws | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_iam_policy_document.lambda](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| log\_level | The log level of the lambda function | `string` | `"INFO"` | no |
+| <a name="input_log_level"></a> [log\_level](#input\_log\_level) | The log level of the lambda function | `string` | `"INFO"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| function\_name | The name of the Lambda function |
+| <a name="output_function_name"></a> [function\_name](#output\_function\_name) | The name of the Lambda function |
 
 <!-- END TFDOCS -->
