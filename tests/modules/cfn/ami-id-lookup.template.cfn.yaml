@@ -13,6 +13,7 @@ Metadata:
           - AmiFilters
           - AmiId
           - AmiOwners
+          - AmiIdLookupFunctionName
     Version: 0.0.0
   cfn-lint:
     config:
@@ -35,6 +36,10 @@ Parameters:
     Default: '["amazon"]'
     Description: Json string containing a list of owners to filter the ami search against
     Type: String
+  AmiIdLookupFunctionName:
+    Default: 'cfn-lookup-ami-ids'
+    Description: The function name of the AmiId Lookup Lambda
+    Type: String
 Resources:
   AmiIdLookup:
     Condition: UseAmiLookup
@@ -42,5 +47,5 @@ Resources:
       Filters: !Ref AmiFilters
       Owners: !Ref AmiOwners
       Region: !Ref AWS::Region
-      ServiceToken: !Sub arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:cfn-lookup-ami-ids
+      ServiceToken: !Sub arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${AmiIdLookupFunctionName}
     Type: Custom::AmiIdLookup

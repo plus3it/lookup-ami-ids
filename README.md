@@ -25,6 +25,7 @@ No requirements.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_function_name"></a> [function\_name](#input\_function\_name) | The function name of the lambda | `string` | `"cfn-lookup-ami-ids"` | no |
 | <a name="input_log_level"></a> [log\_level](#input\_log\_level) | The log level of the lambda function | `string` | `"INFO"` | no |
 
 ## Outputs

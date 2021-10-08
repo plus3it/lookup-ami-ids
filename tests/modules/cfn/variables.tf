@@ -96,3 +96,9 @@ variable "AmiOwners" {
   description = "List of owners to filter ami search results against"
   default     = ["amazon"]
 }
+
+variable "AmiIdLookupFunctionName" {
+  type        = string
+  description = "The function name of the lambda"
+  default     = "test-cfn-lookup-ami-ids"
+}
