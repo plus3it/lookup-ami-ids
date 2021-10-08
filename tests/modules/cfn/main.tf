@@ -1,3 +1,8 @@
+module "ami-lookup-lambda" {
+  source        = "../../../"
+  function_name = var.AmiIdLookupFunctionName
+}
+
 resource "aws_cloudformation_stack" "cfn" {
   template_body = file("${path.module}/ami-id-lookup.template.cfn.yaml")
 
@@ -13,9 +18,10 @@ resource "aws_cloudformation_stack" "cfn" {
   timeout_in_minutes = var.TimeoutInMinutes
 
   parameters = {
-    AmiId      = var.AmiId
-    AmiFilters = jsonencode(var.AmiFilters)
-    AmiOwners  = jsonencode(var.AmiOwners)
+    AmiId                   = var.AmiId
+    AmiFilters              = jsonencode(var.AmiFilters)
+    AmiOwners               = jsonencode(var.AmiOwners)
+    AmiIdLookupFunctionName = var.AmiIdLookupFunctionName
   }
 
   timeouts {
