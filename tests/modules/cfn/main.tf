@@ -29,4 +29,8 @@ resource "aws_cloudformation_stack" "cfn" {
     delete = "${var.TimeoutInMinutes}m"
     update = "${var.TimeoutInMinutes}m"
   }
+
+  depends_on = [
+    module.ami-lookup-lambda,
+  ]
 }
