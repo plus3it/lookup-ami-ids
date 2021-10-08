@@ -8,10 +8,16 @@ See the tests directory of this project for examples on how to consume this reso
 
 At the moment, testing is manual:
 
+NOTE:  There is a success case and a failure case; each will need to be 
+tested separately.  See the "-k" option below.
+
 ```
 # Replace "xxx" with an actual AWS profile, then execute the integration tests.
 export AWS_PROFILE=xxx 
-make terraform/pytest PYTEST_ARGS="-v --nomock"
+make terraform/pytest PYTEST_ARGS="-v --nomock -k success"
+
+# The following will fail:
+make terraform/pytest PYTEST_ARGS="-v --nomock -k failure"
 ```
 
 <!-- BEGIN TFDOCS -->
