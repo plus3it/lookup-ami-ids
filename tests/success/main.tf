@@ -20,6 +20,16 @@ locals {
   owners = ["amazon"]
 }
 
+resource "random_id" "aws-lookup-lambda" {
+  byte_length = 1
+  prefix      = "test-cfn-lookup-ami-ids-"
+}
+
+module "ami-lookup-lambda" {
+  source        = "../../"
+  function_name = random_id.aws-lookup-lambda.hex
+}
+
 module "success" {
   source = "../modules/cfn"
 
@@ -29,9 +39,10 @@ module "success" {
     "CAPABILITY_AUTO_EXPAND"
   ]
 
-  TimeoutInMinutes = 1
-  AmiFilters       = local.ami_filters
-  AmiOwners        = local.owners
+  TimeoutInMinutes        = 1
+  AmiFilters              = local.ami_filters
+  AmiOwners               = local.owners
+  AmiIdLookupFunctionName = module.ami-lookup-lambda.function_name
 }
 
 data "aws_ami" "tf_data_source" {
