@@ -24,7 +24,7 @@ For automated testing, PYTEST_ARGS is optional and no profile is needed:
 
 ```
 make mockstack/up
-make terraform/pytest PYTEST_ARGS="-v -k success --only-moto"
+make terraform/pytest PYTEST_ARGS="-v -k success"
 make terraform/pytest PYTEST_ARGS="-v -k failure"  # Expect failure
 make mockstack/clean
 ```
