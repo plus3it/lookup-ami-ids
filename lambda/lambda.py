@@ -41,7 +41,12 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
-ec2 = boto3.client("ec2")
+endpoint_url = None
+moto_port = os.environ.get("MOTO_PORT", "")
+if moto_port:
+    moto_host = os.environ.get("MOTO_HOST", "")
+    endpoint_url = f"{moto_host}:{moto_port}"
+ec2 = boto3.client("ec2", endpoint_url=endpoint_url)
 
 
 def build_search_body(event):
