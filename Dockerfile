@@ -1,4 +1,4 @@
-FROM plus3it/tardigrade-ci:0.18.0
+FROM plus3it/tardigrade-ci:0.19.4
 
 COPY lambda/requirements.txt /app/requirements.txt
 
