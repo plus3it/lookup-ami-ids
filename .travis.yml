@@ -27,7 +27,7 @@ jobs:
       install:
         - make docker-compose/install
         - make mockstack/up
-      script: make mockstack/pytest
+      script: make mockstack/pytest PYTEST_ARGS="-k success"
       after_script:
         - make mockstack/clean
     - stage: deploy
