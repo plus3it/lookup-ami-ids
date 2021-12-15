@@ -6,7 +6,7 @@ See the tests directory of this project for examples on how to consume this reso
 
 ## Testing
 
-At the moment, testing is manual:
+Manual testing:
 
 NOTE:  There is a success case and a failure case; each will need to be 
 tested separately.  See the "-k" option below.
@@ -18,6 +18,15 @@ make terraform/pytest PYTEST_ARGS="-v --nomock -k success"
 
 # The following will fail:
 make terraform/pytest PYTEST_ARGS="-v --nomock -k failure"
+```
+
+For automated testing, PYTEST_ARGS is optional and no profile is needed:
+
+```
+make mockstack/up
+make terraform/pytest PYTEST_ARGS="-v -k success"
+make terraform/pytest PYTEST_ARGS="-v -k failure"  # Expect failure
+make mockstack/clean
 ```
 
 <!-- BEGIN TFDOCS -->
