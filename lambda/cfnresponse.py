@@ -51,7 +51,9 @@ def send(
     headers = {"content-type": "", "content-length": str(len(json_response_body))}
 
     try:
-        response = requests.put(response_url, data=json_response_body, headers=headers)
+        response = requests.put(
+            response_url, data=json_response_body, headers=headers, timeout=5
+        )
         print("Status code: " + response.reason)
     except Exception as exc:
         print("send(..) failed executing requests.put(..): " + str(exc))
