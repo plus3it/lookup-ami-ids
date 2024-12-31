@@ -24,7 +24,7 @@ def send(
     response_data,
     physical_resource_id=None,
     no_echo=False,
-):  # pylint: disable=too-many-arguments
+):  # pylint: disable=too-many-arguments,too-many-positional-arguments
     """Send function."""
     response_url = event["ResponseURL"]
 
