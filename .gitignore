@@ -22,3 +22,6 @@ __pycache__
 
 #ide
 .idea
+
+#macOS local dir meta file
+.DS_Store
