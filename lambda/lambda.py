@@ -29,12 +29,12 @@ if root.handlers:
     for _handler in root.handlers:
         root.removeHandler(_handler)
 
-LOG_FILE_NAME = ""
+log_file_name = ""
 if not os.environ.get("AWS_EXECUTION_ENV"):
-    LOG_FILE_NAME = "ami-lookup.log"
+    log_file_name = "ami-lookup.log"
 
 logging.basicConfig(
-    filename=LOG_FILE_NAME,
+    filename=log_file_name,
     format="%(asctime)s.%(msecs)03dZ [%(name)s][%(levelname)-5s]: %(message)s",
     datefmt="%Y-%m-%dT%H:%M:%S",
     level=LOG_LEVELS[os.environ.get("LOG_LEVEL", "").lower()],

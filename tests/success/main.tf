@@ -1,12 +1,18 @@
 locals {
   ami_filters = [
     {
-      Name   = "name",
-      Values = ["amzn-ami-hvm-*"]
+      Name = "name",
+      Values = [
+        "al2023-ami-*-kernel-6.1-x86_64", # Used by real AWS endpoint
+        "amzn2-ami-hvm-*",                # Used by moto mocked AWS endpoint, see https://github.com/getmoto/moto/blob/master/moto/ec2/resources/amis.json
+      ]
     },
     {
-      Name   = "description",
-      Values = ["Amazon Linux AMI*"]
+      Name = "description",
+      Values = [
+        "Amazon Linux 2023*",  # Used by real AWS endpoint
+        "Amazon Linux 2 AMI*", # Used by moto mocked AWS endpoint
+      ]
     },
     {
       Name   = "architecture",
@@ -39,7 +45,7 @@ module "success" {
     "CAPABILITY_AUTO_EXPAND"
   ]
 
-  TimeoutInMinutes        = 1
+  TimeoutInMinutes        = 5
   AmiFilters              = local.ami_filters
   AmiOwners               = local.owners
   AmiIdLookupFunctionName = module.ami-lookup-lambda.function_name

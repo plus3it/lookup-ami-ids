@@ -29,7 +29,7 @@ Parameters:
     Description: (Optional) AMI ID -- will supersede Lambda-based AMI lookup using AmiNameSearchString
     Type: String
   AmiFilters:
-    Default: '[{"Name": "name", "Values": ["Windows_Server-2016-English-Full-Base-*"]}]'
+    Default: '[{"Name": "name", "Values": ["Windows_Server-2025-English-Full-Base-*"]}]'
     Description: Json string containing list of maps of ami search filters. refer to the boto3 docs for a complete filter list (https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2.html#EC2.Client.describe_images)
     Type: String
   AmiOwners:

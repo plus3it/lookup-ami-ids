@@ -14,7 +14,7 @@ module "lambda" {
   function_name = var.function_name
   description   = "Looks up AMI IDs for cloudformation"
   handler       = "lambda.handler"
-  runtime       = "python3.7"
+  runtime       = "python3.13"
   timeout       = 300
 
   source_path = "${path.module}/lambda"
