@@ -27,7 +27,7 @@ module "failure" {
     "CAPABILITY_AUTO_EXPAND"
   ]
 
-  TimeoutInMinutes        = 1
+  TimeoutInMinutes        = 5
   AmiFilters              = local.ami_filters
   AmiOwners               = local.owners
   AmiIdLookupFunctionName = module.ami-lookup-lambda.function_name
